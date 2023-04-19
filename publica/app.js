@@ -8,7 +8,6 @@ const ciudad = document.querySelector('#ciudad');
 const estado = document.querySelector('#estado');
 const pais = document.querySelector('#pais');
 
-
 const correo = document.querySelector('#correo');
 const telefono = document.querySelector('#telefono');
 const foto = document.querySelector('#foto');
@@ -16,7 +15,6 @@ const latitud = document.querySelector('#latitud');
 const longitud = document.querySelector('#longitud');
 
 const initialCoordinates = { lat: 32.46189158211574, lng: -116.82442893896096 };
-//initMap(initialCoordinates);
 
 let map;
 let marker;
@@ -129,6 +127,47 @@ function updateMarker(coordenadas){
     }
 }
 
+function filterUsers() {
+  const filterInput = document.querySelector('#filter-input');
+  const filterText = filterInput.value.toLowerCase();
+
+  const userContainers = document.querySelectorAll('.user-container');
+
+  userContainers.forEach((userContainer) => {
+    const nameElement = userContainer.querySelector('h2');
+    const nameText = nameElement.textContent.toLowerCase();
+
+    const countryElement = userContainer.querySelector('p:nth-of-type(5)');
+    const countryText = countryElement.textContent.toLowerCase();
+
+    if (nameText.includes(filterText) || countryText.includes(filterText)) {
+      userContainer.classList.remove('filtered');
+      userContainer.style.display = 'flex';
+    } else {
+      const nameWords = nameText.split(' ');
+      const partialMatches = nameWords.filter(word => word.startsWith(filterText));
+      if (partialMatches.length > 0) {
+        userContainer.classList.remove('filtered');
+        userContainer.style.display = 'flex';
+      } else {
+        userContainer.classList.add('filtered');
+        userContainer.style.display = 'none';
+      }
+    }
+  });
+}
+
+function clearFilter() {
+  const filterInput = document.querySelector('#filter-input');
+  filterInput.value = '';
+
+  const filteredContainers = document.querySelectorAll('.filtered');
+  filteredContainers.forEach((container) => {
+      container.classList.remove('filtered');
+      container.style.display = 'flex';
+  });
+}
+
 function createUserMap(coordenadas, mapElement) {
     const map = new google.maps.Map(mapElement, {
       zoom: 5,
@@ -146,11 +185,15 @@ function createUserMap(coordenadas, mapElement) {
 
 document.addEventListener('DOMContentLoaded', generarUsuario);
 document.addEventListener('googleMapsApiLoaded', () => {
-    initMap(initialCoordinates);
-  });
+  initMap(initialCoordinates);
+});
 
 const userCountInput = document.querySelector('#user-count');
 boton.addEventListener('click', () => {
 const userCount = parseInt(userCountInput.value, 15) || 1;
 generarUsuario(userCount);
 });
+const filterButton = document.querySelector('#filter-button');
+filterButton.addEventListener('click', filterUsers);
+const clearFilterButton = document.querySelector('#clear-filter-button');
+clearFilterButton.addEventListener('click', clearFilter);
