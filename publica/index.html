@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500&display=swap" rel="stylesheet">
+    <title>User Random</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+</head>
+
+<body>
+
+    <h1>Random User Generator by Eva Vidaña</h1>
+    
+    <div class="boton">
+        <input placeholder="Numero de usuarios a generar..." type="number" id="user-count" min="1">
+        
+        <button id="boton">GENERAR</button>
+    </div>
+
+    <div class="contenedor">
+        <img id="foto" src="" alt="imagen">
+        <h2>Hola mi nombre es: <span id="nombre"></span>&nbsp;<span id="apellido"></span></h2>
+        <div class="datos">
+            <p>Correo: <span id="correo"></span></p>
+            <p>Celular: <span id="telefono"></span></p>
+            <p>Coordenadas: <span id="latitud"></span><span id="longitud"></span></p>
+        </div>
+    </div>
+      
+    <script>
+        function initMapCallback() {
+          const event = new CustomEvent('googleMapsApiLoaded');
+          document.dispatchEvent(event);
+        }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdOVbaNSHh1U9rdj1lQeDRr2KIDxabhwg&callback=initMapCallback" async defer></script>
+    <script src="app.js"></script>
+    <content-Security-Policy enabled="true">
+        <script-src self="true">
+          <add source="*.googleapis.com"/>            
+        </script-src>
+        <connect-src self="true">
+          <add source="*.googleapis.com"/>            
+        </connect-src>
+      </content-Security-Policy>
+</body>
+
+</html>
+
